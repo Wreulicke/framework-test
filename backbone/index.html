@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Backbone js</title>
+    <script src="../common/load.js" charset="utf-8"></script>
+    <script src="https://code.jquery.com/jquery-2.2.3.js" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.11.2/lodash.js" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.3.3/backbone.js" charset="utf-8"></script>
+    <script type="text/javascript">
+      function init() {
+        var App = Backbone.View.extend({
+          template: function () {
+            return `
+              <textarea type="text" />
+              <div class="area"></div>`;
+          },
+          initialize: function () {
+            this.render();
+          },
+          events: {
+            "input": "onInput"
+          },
+          onInput: function (e) {
+            this.$('.area').html(_.escape(e.target.value));
+          },
+          render: function () {
+            this.$el.html(this.template())
+          }
+        });
+        new App({el: "#app"});
+      }
+    </script>
+  </head>
+  <body>
+    <div id="app"></div>
+  </body>
+</html>
