@@ -10,25 +10,29 @@
     <script type="text/javascript">
       function init() {
         var App = Backbone.View.extend({
-          template: function () {
-            return `
-              <textarea></textarea>
-              <div class="area"></div>`;
-          },
-          initialize: function () {
+          template: _.template(`
+              <textarea><%= text %></textarea>
+              <div class="area"><%- text %></div>`),
+          initialize: function (opt) {
+            this.model = opt.model;
+            this.model.set("text", "init");
             this.render();
+            this.listenTo(this.model, "change:text", this.applyText);
           },
           events: {
             "input": "onInput"
           },
           onInput: function (e) {
-            this.$('.area').html(_.escape(e.target.value));
+            this.model.set("text", e.target.value);
           },
           render: function () {
-            this.$el.html(this.template())
+            this.$el.html(this.template(this.model.toJSON()))
+          },
+          applyText: function (model, text) {
+            this.$(".area").html(_.escape(text));
           }
         });
-        new App({el: "#app"});
+        new App({el: "#app", model: new Backbone.Model()});
       }
     </script>
   </head>
