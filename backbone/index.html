@@ -15,7 +15,6 @@
               <div class="area"><%- text %></div>`),
           initialize: function (opt) {
             this.model = opt.model;
-            this.model.set("text", "init");
             this.render();
             this.listenTo(this.model, "change:text", this.applyText);
           },
@@ -32,7 +31,10 @@
             this.$(".area").html(_.escape(text));
           }
         });
-        new App({el: "#app", model: new Backbone.Model()});
+        new App({
+          el: "#app",
+          model: new Backbone.Model({text: "init"})
+        });
       }
     </script>
   </head>
