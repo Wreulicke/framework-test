@@ -3,11 +3,11 @@
   <head>
     <meta charset="utf-8">
     <title>Backbone js</title>
-    <script src="../common/load.js" charset="utf-8"></script>
     <script src="https://code.jquery.com/jquery-2.2.3.js" charset="utf-8"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.11.2/lodash.js" charset="utf-8"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.3.3/backbone.js" charset="utf-8"></script>
     <script type="text/javascript">
+      document.addEventListener('DOMContentLoaded', init);
       function init() {
         var App = Backbone.View.extend({
           template: _.template(`

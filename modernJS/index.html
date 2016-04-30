@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <title>Modern javascript sample</title>
-    <script src="../common/load.js" charset="utf-8"></script>
     <script type="text/javascript">
+      document.addEventListener('DOMContentLoaded', init);
       function init() {
         var app = document.querySelector('#app');
         app.innerHTML = `
