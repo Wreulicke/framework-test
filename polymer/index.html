@@ -37,7 +37,7 @@
     <my-list></my-list>
     <dom-module id="my-list">
       <template>
-        <input type="text" on-keypress="hoge"></input>
+        <input type="text" on-keypress="addItem" value="{{newItem::input}}"></input>
         <ul>
           <template is="dom-repeat" items="{{items}}" as="item">
             <li>{{item.text}}</li>
@@ -51,13 +51,17 @@
             items:{
               type:Array,
               notify:true
+            },
+            newItem:{
+              type:String,
+              notify:true
             }
           },
-          hoge:function(e){
+          addItem:function(e){
             if(e.keyCode==13){
               e.preventDefault();
-              this.set('items',this.items.concat({text:e.target.value}));
-              e.target.value="";
+              this.set('items',this.items.concat({text:this.newItem}));
+              this.newItem="";
             }
             console.log("hoge")
           },
