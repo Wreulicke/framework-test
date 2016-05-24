@@ -25,7 +25,7 @@
             this.model.set("text", e.target.value);
           },
           render: function () {
-            this.$el.html(this.template(this.model.toJSON()))
+            this.$el.html(this.template(this.model.toJSON()));
           },
           applyText: function (model, text) {
             this.$(".area").html(_.escape(text));
@@ -35,10 +35,42 @@
           el: "#app",
           model: new Backbone.Model({text: "init"})
         });
+        var List = Backbone.View.extend({
+          template: _.template(`
+            <input class="newItem" type="text"></input>
+            <ul><% _.each(list, function(item){ %>
+              <li><%-item.text %></li>
+            <% });%>
+            </ul>
+          `),
+          initialize: function (opt) {
+            this.model = opt.model;
+            this.listenTo(this.model,"add",this.render);
+            this.render();
+          },
+          events: {
+            "keypress .newItem":"onPress"
+          },
+          onPress:function(e){
+            if(e.keyCode==13){
+              e.preventDefault();
+              this.model.add({text:e.target.value});
+              this.$(".newItem").focus();
+            }
+          },
+          render: function () {
+            this.$el.html(this.template({list:this.model.toJSON()}));
+          }
+        });
+        new List({
+          el: "#list",
+          model: new Backbone.Collection({text:"init"})
+        });
       }
     </script>
   </head>
   <body>
     <div id="app"></div>
+    <div id="list"></div>
   </body>
 </html>
