@@ -7,9 +7,9 @@
     <script type="text/javascript">
       document.addEventListener('DOMContentLoaded', init);
       function init() {
-        var TestModel = {
+        var TextArea = {
           controller: function () {
-            this.vm = TestModel.vm.init();
+            this.vm = TextArea.vm.init();
           },
           vm: {
             init: function () {
@@ -27,11 +27,43 @@
             ])
           }
         };
-        m.mount(app, TestModel);
+        m.mount(app, TextArea);
+        var List={
+          controller: function () {
+            this.vm = List.vm.init();
+          },
+          vm: {
+            init: function () {
+              this.newItem = m.prop("");
+              this.items = m.prop([{text:"init"}]);
+              return this;
+            },
+            addItem:function(newItem, e){
+              if(e.keyCode==13){
+                e.preventDefault();
+                this.items().push({text:newItem()});
+                newItem("");
+              }
+            }
+          },
+          view: function (ctrl) {
+            return m("div", [
+              m("input", {
+                type:"text",
+                oninput: m.withAttr("value", ctrl.vm.newItem),
+                onkeypress:ctrl.vm.addItem.bind(ctrl.vm, ctrl.vm.newItem),
+                value: ctrl.vm.newItem()
+              }),
+              m("ul", ctrl.vm.items().map((item)=>m("li",item.text)))
+            ])
+          }
+        }
+        m.mount(list, List);
       }
     </script>
   </head>
   <body>
     <div id="app"></div>
+    <div id="list"></div>
   </body>
 </html>
