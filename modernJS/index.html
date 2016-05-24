@@ -8,16 +8,33 @@
       function init() {
         var app = document.querySelector('#app');
         app.innerHTML = `
-          <textarea></textarea>
-          <div class="area"></div>
+          <textarea>hoge</textarea>
+          <div class="area">hoge</div>
         `;
         app.querySelector("textarea").addEventListener('input', function (e) {
           app.querySelector('.area').innerText = e.target.value;
+        });
+
+        itemTemplate=(item) => {return `<li>${item.text}</li>`};
+        var itemList=[{text:"init"}];
+        htmlTemplate=()=>{return `
+          <input type="text" class="newItem"></input>
+          <ul>${itemList.map(itemTemplate).join('')}</ul>
+        `};
+        list.innerHTML = htmlTemplate();
+        list.querySelector(".newItem").addEventListener('keypress', function (e) {
+          if(e.keyCode==13){
+            e.preventDefault();
+            itemList.push({text:e.target.value});
+            list.querySelector("ul").innerHTML=itemList.map(itemTemplate).join('');
+            e.target.value="";
+          }
         });
       }
     </script>
   </head>
   <body>
     <div id="app"></div>
+    <div id="list"></div>
   </body>
 </html>
