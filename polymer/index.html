@@ -34,5 +34,38 @@
         })
       </script>
     </dom-module>
+    <my-list></my-list>
+    <dom-module id="my-list">
+      <template>
+        <input type="text" on-keypress="hoge"></input>
+        <ul>
+          <template is="dom-repeat" items="{{items}}" as="item">
+            <li>{{item.text}}</li>
+          </template>
+        </ul>
+      </template>
+      <script>
+        Polymer({
+          is: "my-list",
+          properties:{
+            items:{
+              type:Array,
+              notify:true
+            }
+          },
+          hoge:function(e){
+            if(e.keyCode==13){
+              e.preventDefault();
+              this.set('items',this.items.concat({text:e.target.value}));
+              e.target.value="";
+            }
+            console.log("hoge")
+          },
+          ready: function () {
+            this.items=[{text:"init"}];
+          }
+        })
+      </script>
+    </dom-module>
   </body>
 </html>
