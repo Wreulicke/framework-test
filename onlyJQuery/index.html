@@ -16,10 +16,24 @@
           // jQuery has not html escape
           app.find(".area").text(e.target.value);
         });
+        var list = $("#list");
+        list.html(`
+          <input class="newItem" type="text"></input>
+          <ul><li>init</li></ul>
+        `);
+        list.find(".newItem").on("keypress", function (e) {
+          if(e.keyCode==13){
+            e.preventDefault();
+            var text=$(e.target).val()
+            list.find("ul").append(`<li>${text}</li>`)
+            $(e.target).val("")
+          }
+        });
       }
     </script>
   </head>
   <body>
     <div id="app"></div>
+    <div id="list"></div>
   </body>
 </html>
