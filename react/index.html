@@ -27,10 +27,47 @@
         });
         Index = React.createFactory(Index);
         ReactDOM.render(Index({}), app);
+        var List = React.createClass({
+          displayName: "list",
+          getInitialState: function () {
+            return {
+              newItem:"",
+              items:[{i:0,text:"init"}]
+            };
+          },
+          handleKeyPress:function(e){
+            if(e.which==13){
+              e.preventDefault();
+              this.setState({
+                newItem:"",
+                items:this.state.items.concat([{i:this.state.items.length, text:this.state.newItem}])
+              });
+
+            }
+          },
+          handleChange: function (e) {
+            this.setState({newItem: e.target.value});
+          },
+          render: function () {
+            return React.createElement("div", null,
+              React.createElement("input", {
+                type:"text",
+                onKeyPress:this.handleKeyPress,
+                onChange:this.handleChange,
+                value: this.state.newItem
+              }),
+              React.createElement("ul", null, this.state.items.map((item)=>React.createElement("li",{key:item.i}, item.text)))
+            );
+          }
+
+        });
+        List = React.createFactory(List);
+        ReactDOM.render(List({}), list);
       }
     </script>
   </head>
   <body>
     <div id="app"></div>
+    <div id="list"></div>
   </body>
 </html>
