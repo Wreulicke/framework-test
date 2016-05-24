@@ -16,15 +16,38 @@
             return {test: "hoge"};
           }
         })
+        var List=Vue.extend({
+          template:`
+            <input v-model="newItem" @keypress.enter.prevent="addItem"></input>
+            <ul>
+              <li v-for="item in items">{{item.text}}</li>
+            </ul>
+          `,
+          data:function(){
+            return {
+              newItem:"",
+              items:[{text:"init"}]
+            }
+          },
+          methods:{
+            addItem:function(e){
+              this.items.push({text:this.newItem});
+              this.newItem="";
+            }
+          }
+        });
         Vue.component('test-component', MyComponent);
-        var App = new Vue({el: "#app"});
+        Vue.component('my-list', List);
         console.log("test");
+        var App = new Vue({el: "#app"});
       }
     </script>
   </head>
   <body>
     <div id="app">
       <test-component></test-component>
+      <div is="my-list"></div>
     </div>
+
   </body>
 </html>
